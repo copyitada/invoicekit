@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvoiceKit — Invoices that mean business</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:    #18160f;
+  --ink2:   #3d3a31;
+  --ink3:   #7a7568;
+  --paper:  #f7f4ef;
+  --paper2: #ede9e1;
+  --paper3: #ddd8cc;
+  --rust:   #c8440a;
+  --rust2:  #e05518;
+  --gold:   #a07d18;
+  --cream:  #fdfbf7;
+  --serif:  'Playfair Display', Georgia, serif;
+  --sans:   'Instrument Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(247,244,239,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--paper3);
+}
+.nav-logo { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--ink); text-decoration: none; }
+.nav-logo em { color: var(--rust); font-style: normal; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 13px; color: var(--ink3); text-decoration: none; font-weight: 500; letter-spacing: 0.2px; transition: color .2s; }
+.nav-links a:hover { color: var(--ink); }
+.btn-nav {
+  background: var(--ink); color: var(--cream);
+  border: none; border-radius: 3px;
+  padding: 9px 20px; font-family: var(--sans); font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none;
+  transition: background .2s;
+}
+.btn-nav:hover { background: var(--rust); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 80px 48px 60px;
+  gap: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,68,10,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 24px;
+}
+.hero-eyebrow::before {
+  content: ''; display: block; width: 28px; height: 1px; background: var(--rust);
+}
+.hero-h1 {
+  font-family: var(--serif); font-size: clamp(44px, 5.5vw, 76px);
+  line-height: 1.05; letter-spacing: -1.5px; color: var(--ink);
+  margin-bottom: 28px;
+}
+.hero-h1 em { color: var(--rust); font-style: italic; }
+.hero-sub {
+  font-size: 17px; line-height: 1.65; color: var(--ink2);
+  max-width: 440px; margin-bottom: 40px;
+  font-weight: 400;
+}
+.hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--rust); color: #fff;
+  border: none; border-radius: 3px;
+  padding: 14px 28px; font-family: var(--sans); font-size: 15px; font-weight: 600;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: background .2s, transform .1s;
+  box-shadow: 0 4px 20px rgba(200,68,10,0.28);
+}
+.btn-primary:hover { background: var(--rust2); transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 14px; color: var(--ink2); text-decoration: none; font-weight: 500;
+  display: flex; align-items: center; gap: 6px;
+  border-bottom: 1px solid var(--paper3); padding-bottom: 2px;
+  transition: color .2s, border-color .2s;
+}
+.btn-ghost:hover { color: var(--rust); border-color: var(--rust); }
+.hero-trust {
+  margin-top: 44px; display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: var(--ink3); font-weight: 500;
+}
+.trust-dots { display: flex; gap: -4px; }
+.trust-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--paper); background: var(--paper3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--ink2);
+  margin-left: -6px;
+}
+.trust-dot:first-child { margin-left: 0; }
+
+/* Hero mockup */
+.hero-visual {
+  position: relative; display: flex; justify-content: center; align-items: center;
+}
+.mockup-card {
+  background: var(--cream);
+  border-radius: 4px;
+  box-shadow: 0 8px 48px rgba(24,22,15,0.14), 0 2px 8px rgba(24,22,15,0.06);
+  width: 100%; max-width: 420px;
+  padding: 36px 36px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.mockup-card::before {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%; background: var(--rust);
+}
+.mc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+.mc-brand { font-family: var(--serif); font-size: 18px; color: var(--ink); font-weight: 700; }
+.mc-inv { text-align: right; }
+.mc-inv-title { font-family: var(--serif); font-size: 22px; font-weight: 900; color: var(--ink); }
+.mc-inv-num { font-size: 10px; color: var(--ink3); margin-top: 1px; }
+.mc-divider { height: 1px; background: var(--paper3); margin: 0 0 16px; }
+.mc-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.mc-party-label { font-size: 8px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink3); font-weight: 600; margin-bottom: 4px; }
+.mc-party-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.mc-party-addr { font-size: 10px; color: var(--ink2); line-height: 1.5; }
+.mc-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.mc-table th { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink3); text-align: left; padding: 5px 0; border-bottom: 1px solid var(--paper3); }
+.mc-table th:not(:first-child) { text-align: right; }
+.mc-table td { font-size: 11px; padding: 8px 0; color: var(--ink2); border-bottom: 1px solid var(--paper2); }
+.mc-table td:not(:first-child) { text-align: right; }
+.mc-table .mc-td-desc { font-weight: 600; color: var(--ink); }
+.mc-total-row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; }
+.mc-total-row .tl { color: var(--ink3); }
+.mc-total-row .tv { color: var(--ink2); }
+.mc-grand { display: flex; justify-content: space-between; padding-top: 8px; margin-top: 4px; border-top: 1px solid var(--paper3); }
+.mc-grand .tl { font-size: 13px; font-weight: 600; color: var(--ink); }
+.mc-grand .tv { font-size: 15px; font-weight: 700; color: var(--rust); }
+.mockup-badge {
+  position: absolute; top: 16px; right: -8px;
+  background: var(--gold); color: #fff;
+  font-size: 9px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+  padding: 4px 10px 4px 8px; border-radius: 2px 0 0 2px;
+}
+.mockup-float {
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--ink); color: var(--cream);
+  border-radius: 3px; padding: 12px 16px;
+  font-size: 12px; box-shadow: 0 8px 24px rgba(24,22,15,0.2);
+  white-space: nowrap;
+}
+.mockup-float strong { display: block; font-family: var(--serif); font-size: 18px; color: var(--rust); margin-bottom: 2px; }
+
+/* ── SECTION SHARED ── */
+section { padding: 96px 48px; }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--rust); margin-bottom: 16px; display: block;
+}
+.section-h2 {
+  font-family: var(--serif); font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1; letter-spacing: -1px; color: var(--ink);
+  margin-bottom: 20px;
+}
+.section-sub {
+  font-size: 16px; line-height: 1.65; color: var(--ink2); max-width: 520px;
+}
+
+/* ── STRIP ── */
+.strip {
+  background: var(--ink); color: var(--cream);
+  padding: 18px 48px; overflow: hidden;
+  display: flex; gap: 0;
+}
+.strip-inner {
+  display: flex; gap: 48px; white-space: nowrap;
+  animation: marquee 18s linear infinite;
+}
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.strip-item {
+  font-family: var(--serif); font-size: 15px; font-style: italic;
+  color: rgba(253,251,247,0.6);
+  display: flex; align-items: center; gap: 48px;
+}
+.strip-item::after { content: '✦'; font-style: normal; font-size: 10px; color: var(--rust); }
+
+/* ── FEATURES ── */
+.features { background: var(--cream); }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  margin-top: 64px; border: 1px solid var(--paper3);
+}
+.feature-card {
+  padding: 40px 36px;
+  border-right: 1px solid var(--paper3);
+  background: var(--cream);
+  transition: background .2s;
+}
+.feature-card:last-child { border-right: none; }
+.feature-card:hover { background: var(--paper); }
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 3px;
+  background: var(--paper2); display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 20px;
+}
+.feature-title { font-family: var(--serif); font-size: 20px; margin-bottom: 10px; color: var(--ink); }
+.feature-desc { font-size: 14px; line-height: 1.65; color: var(--ink2); }
+
+/* ── HOW IT WORKS ── */
+.how { background: var(--paper); }
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 48px; margin-top: 64px; }
+.step { position: relative; }
+.step-num {
+  font-family: var(--serif); font-size: 80px; font-weight: 900; line-height: 1;
+  color: var(--paper3); margin-bottom: 8px; letter-spacing: -3px;
+}
+.step-title { font-family: var(--serif); font-size: 22px; color: var(--ink); margin-bottom: 10px; }
+.step-desc { font-size: 14px; line-height: 1.65; color: var(--ink2); }
+.step-connector {
+  position: absolute; top: 32px; right: -24px;
+  font-size: 20px; color: var(--paper3);
+}
+
+/* ── PRICING ── */
+.pricing { background: var(--paper2); }
+.pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 720px; margin: 64px auto 0; }
+.plan-card {
+  background: var(--cream); border: 1px solid var(--paper3);
+  border-radius: 4px; padding: 40px 36px;
+  position: relative;
+}
+.plan-card.featured {
+  background: var(--ink); color: var(--cream);
+  border-color: var(--ink);
+}
+.plan-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--rust); color: #fff;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+  padding: 4px 14px; border-radius: 20px; white-space: nowrap;
+}
+.plan-name {
+  font-family: var(--serif); font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 12px; font-style: italic;
+}
+.plan-card.featured .plan-name { color: rgba(253,251,247,0.5); }
+.plan-price {
+  font-family: var(--serif); font-size: 52px; font-weight: 900; line-height: 1;
+  color: var(--ink); margin-bottom: 4px; letter-spacing: -2px;
+}
+.plan-card.featured .plan-price { color: var(--cream); }
+.plan-period { font-size: 13px; color: var(--ink3); margin-bottom: 28px; }
+.plan-card.featured .plan-period { color: rgba(253,251,247,0.5); }
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+.plan-features li {
+  font-size: 14px; color: var(--ink2);
+  display: flex; align-items: center; gap: 10px;
+}
+.plan-card.featured .plan-features li { color: rgba(253,251,247,0.75); }
+.plan-features li::before {
+  content: '✓'; font-size: 11px; font-weight: 700; color: var(--rust);
+  background: rgba(200,68,10,0.1); border-radius: 50%;
+  width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.plan-card.featured .plan-features li::before { background: rgba(200,68,10,0.25); }
+.btn-plan {
+  width: 100%; padding: 13px;
+  border-radius: 3px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  cursor: pointer; text-align: center; border: none; text-decoration: none; display: block;
+  transition: all .2s;
+}
+.btn-plan-outline {
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--paper3);
+}
+.btn-plan-outline:hover { border-color: var(--ink); }
+.btn-plan-solid {
+  background: var(--rust); color: #fff;
+  box-shadow: 0 4px 16px rgba(200,68,10,0.3);
+}
+.btn-plan-solid:hover { background: var(--rust2); }
+
+/* ── TESTIMONIALS ── */
+.testimonials { background: var(--cream); }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 64px; }
+.testi-card {
+  border: 1px solid var(--paper3); border-radius: 4px; padding: 28px 28px 24px;
+  background: var(--paper); position: relative;
+}
+.testi-quote {
+  font-family: var(--serif); font-size: 42px; color: var(--rust);
+  line-height: 1; margin-bottom: 12px; font-style: italic;
+}
+.testi-text { font-size: 14px; line-height: 1.7; color: var(--ink2); margin-bottom: 20px; }
+.testi-author { display: flex; align-items: center; gap: 10px; }
+.testi-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--paper2); display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: var(--ink2);
+}
+.testi-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.testi-role { font-size: 11px; color: var(--ink3); }
+.stars { font-size: 11px; color: var(--gold); letter-spacing: 1px; margin-bottom: 14px; }
+
+/* ── FAQ ── */
+.faq { background: var(--paper); }
+.faq-list { max-width: 680px; margin: 64px auto 0; }
+.faq-item { border-top: 1px solid var(--paper3); }
+.faq-item:last-child { border-bottom: 1px solid var(--paper3); }
+.faq-q {
+  width: 100%; background: none; border: none;
+  font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--ink);
+  padding: 20px 0; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; text-align: left; gap: 16px;
+}
+.faq-q .icon { font-size: 20px; color: var(--ink3); transition: transform .25s; flex-shrink: 0; }
+.faq-q.open .icon { transform: rotate(45deg); }
+.faq-a {
+  font-size: 14px; line-height: 1.7; color: var(--ink2);
+  max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s;
+}
+.faq-a.open { max-height: 200px; padding-bottom: 20px; }
+
+/* ── CTA BANNER ── */
+.cta-banner {
+  background: var(--ink); padding: 100px 48px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(200,68,10,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-banner .section-label { justify-content: center; color: rgba(200,68,10,0.8); }
+.cta-h2 {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 64px);
+  color: var(--cream); line-height: 1.1; letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+.cta-h2 em { color: var(--rust); font-style: italic; }
+.cta-sub { font-size: 16px; color: rgba(253,251,247,0.6); margin-bottom: 40px; }
+.cta-note { font-size: 12px; color: rgba(253,251,247,0.35); margin-top: 16px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 40px 48px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-logo { font-family: var(--serif); font-size: 18px; color: var(--cream); font-weight: 700; }
+.footer-logo em { color: var(--rust); font-style: normal; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: rgba(253,251,247,0.4); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--cream); }
+.footer-copy { font-size: 12px; color: rgba(253,251,247,0.25); }
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 100px 20px 60px; gap: 48px; }
+  .hero-visual { display: none; }
+  section { padding: 64px 20px; }
+  .features-grid, .steps, .pricing-grid, .testi-grid { grid-template-columns: 1fr; }
+  .feature-card { border-right: none; border-bottom: 1px solid var(--paper3); }
+  .step-connector { display: none; }
+  .strip { padding: 14px 20px; }
+  .cta-banner { padding: 64px 20px; }
+  footer { flex-direction: column; align-items: flex-start; padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Invoice<em>Kit</em></a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a class="btn-nav" href="invoice-generator.html">Try free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Free invoice generator</div>
+    <h1 class="hero-h1">Invoices that<br><em>actually</em> get you paid</h1>
+    <p class="hero-sub">Create beautiful, professional invoices in under 2 minutes. No account needed. No design skills required. Just fill in the form and download your PDF.</p>
+    <div class="hero-actions">
+      <a href="invoice-generator.html" class="btn-primary">Create your first invoice →</a>
+      <a href="#how" class="btn-ghost">See how it works ↓</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mockup-card reveal">
+      <div class="mockup-badge">✓ PDF ready</div>
+      <div class="mc-head">
+        <div class="mc-brand">Budi Studio</div>
+        <div class="mc-inv">
+          <div class="mc-inv-title">Invoice</div>
+          <div class="mc-inv-num">INV-042</div>
+        </div>
+      </div>
+      <div class="mc-divider"></div>
+      <div class="mc-parties">
+        <div>
+          <div class="mc-party-label">From</div>
+          <div class="mc-party-name">Budi Studio</div>
+          <div class="mc-party-addr">Jakarta, Indonesia</div>
+        </div>
+        <div>
+          <div class="mc-party-label">Bill to</div>
+          <div class="mc-party-name">PT Maju Bersama</div>
+          <div class="mc-party-addr">Bekasi, Indonesia</div>
+        </div>
+      </div>
+      <table class="mc-table">
+        <thead>
+          <tr><th>Description</th><th>Qty</th><th>Amount</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mc-td-desc">Website design</td><td>1</td><td>Rp5,000,000</td></tr>
+          <tr><td class="mc-td-desc">SEO setup</td><td>1</td><td>Rp1,500,000</td></tr>
+        </tbody>
+      </table>
+      <div class="mc-total-row"><span class="tl">Subtotal</span><span class="tv">Rp6,500,000</span></div>
+      <div class="mc-grand"><span class="tl">Total Due</span><span class="tv">Rp6,500,000</span></div>
+    </div>
+    <div class="mockup-float reveal reveal-delay-2">
+      <strong>PDF downloaded ✓</strong>
+      INV-042.pdf · Just now
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE STRIP -->
+<div class="strip" aria-hidden="true">
+  <div class="strip-inner">
+    <span class="strip-item">No account required</span>
+    <span class="strip-item">Download in seconds</span>
+    <span class="strip-item">Works on any device</span>
+    <span class="strip-item">Professional PDF output</span>
+    <span class="strip-item">AI autofill on free accounts</span>
+    <span class="strip-item">Custom branding on Pro</span>
+    <span class="strip-item">No account required</span>
+    <span class="strip-item">Download in seconds</span>
+    <span class="strip-item">Works on any device</span>
+    <span class="strip-item">Professional PDF output</span>
+    <span class="strip-item">AI autofill on free accounts</span>
+    <span class="strip-item">Custom branding on Pro</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div style="max-width:900px;margin:0 auto">
+    <span class="section-label reveal">What you get</span>
+    <h2 class="section-h2 reveal reveal-delay-1">Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-sub reveal reveal-delay-2">InvoiceKit strips invoicing down to what matters — a clean form, a beautiful PDF, and money in your account faster.</p>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant PDF export</div>
+        <p class="feature-desc">Fill in your details and hit download. Your invoice is generated client-side — no servers, no waiting, no account needed.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">✦</div>
+        <div class="feature-title">Polished by default</div>
+        <p class="feature-desc">Every invoice looks professional out of the box. Clean typography, clear layout, and your branding front and centre on Pro.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🌏</div>
+        <div class="feature-title">Multi-currency</div>
+        <p class="feature-desc">Invoice in IDR, USD, EUR, SGD, GBP, AUD and more. Perfect for freelancers working with international clients.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🧮</div>
+        <div class="feature-title">Auto-calculated totals</div>
+        <p class="feature-desc">Add line items, quantities, rates and tax. Subtotals and totals update instantly — no spreadsheet required.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Live preview</div>
+        <p class="feature-desc">See exactly what your invoice will look like before you download it. What you see is what your client gets.</p>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Private by design</div>
+        <p class="feature-desc">No account needed to get started. Sign up to unlock history and AI autofill — your data is stored securely and never sold or used for ads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div style="max-width:900px;margin:0 auto">
+    <span class="section-label reveal">How it works</span>
+    <h2 class="section-h2 reveal reveal-delay-1">Done in three steps.</h2>
+    <p class="section-sub reveal reveal-delay-2">No tutorials. No onboarding. Just open, fill, download.</p>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-title">Fill in the form</div>
+        <p class="step-desc">Enter your details, your client's details, and your line items. Everything updates in the live preview as you type.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">02</div>
+        <div class="step-title">Check the preview</div>
+        <p class="step-desc">See your invoice exactly as it will appear to your client. Adjust anything until it's perfect.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">03</div>
+        <div class="step-title">Download & send</div>
+        <p class="step-desc">Hit download to get a clean PDF. Email it directly to your client and get paid faster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div style="max-width:900px;margin:0 auto;text-align:center">
+    <span class="section-label reveal" style="display:block">Pricing</span>
+    <h2 class="section-h2 reveal reveal-delay-1">Start free. Upgrade when you're ready.</h2>
+    <p class="section-sub reveal reveal-delay-2" style="margin:0 auto">No credit card required to get started. Upgrade when you need more.</p>
+
+    <div class="pricing-grid" style="grid-template-columns:repeat(3,1fr);max-width:960px">
+      <div class="plan-card reveal">
+        <div class="plan-name">Guest</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-period">no account needed</div>
+        <ul class="plan-features">
+          <li>3 invoices per month</li>
+          <li>PDF download</li>
+          <li>All currencies</li>
+          <li>Live preview</li>
+          <li>4 invoice templates</li>
+        </ul>
+        <a href="invoice-generator.html" class="btn-plan btn-plan-outline">Try without signing up</a>
+      </div>
+      <div class="plan-card reveal reveal-delay-1">
+        <div class="plan-badge" style="background:var(--gold)">Free account</div>
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-period">free forever · sign up required</div>
+        <ul class="plan-features">
+          <li>5 invoices per month</li>
+          <li>PDF download</li>
+          <li>All currencies</li>
+          <li>Invoice history</li>
+          <li>AI autofill (300 credits/mo)</li>
+        </ul>
+        <a href="invoice-generator.html" class="btn-plan btn-plan-outline">Create free account</a>
+      </div>
+      <div class="plan-card featured reveal reveal-delay-2">
+        <div class="plan-badge">Coming soon</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price" style="font-size:32px;margin-top:8px">Coming soon</div>
+        <div class="plan-period">pricing to be announced</div>
+        <ul class="plan-features">
+          <li>Unlimited invoices</li>
+          <li>Custom logo & branding</li>
+          <li>AI autofill (6,000 credits/mo)</li>
+          <li>Invoice history</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-solid" onclick="event.preventDefault();alert('Pro plan coming soon — stay tuned!')">Coming soon</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- testimonials removed -->
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div style="max-width:900px;margin:0 auto">
+    <span class="section-label reveal">FAQ</span>
+    <h2 class="section-h2 reveal reveal-delay-1">Questions, answered.</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need to create an account?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">No account is needed for the guest plan — just open the tool, fill in your details, and download your PDF. Create a free account to unlock invoice history, AI autofill, and 5 invoices per month instead of 3.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How does the invoice limit work?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">Guests (no account) get 3 invoice downloads per month, tracked anonymously via browser fingerprinting — it resets if you clear browser data or switch devices. Free accounts get 5 invoices per month, tracked server-side and reset on the 1st of each month. Pro users get unlimited invoices.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I add my own logo?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">Custom logos are a Pro feature. Upgrade to the Pro plan to add your logo to every invoice for a fully branded experience.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What currencies are supported?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">InvoiceKit supports USD, EUR, GBP, IDR, SGD, JPY, and AUD on the free plan. More currencies can be added on request — just reach out.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What is AI autofill?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">AI autofill lets you describe your invoice in plain language and have the form filled automatically. Free accounts get 300 credits per month (15 credits per autofill, ~20 uses). Pro accounts get 6,000 credits per month (~400 uses). Credits reset on the 1st of each month.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I cancel my Pro plan anytime?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-a">Yes, absolutely. You can cancel your Pro subscription at any time with no questions asked. You'll keep Pro access until the end of your billing period.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <span class="section-label reveal" style="display:block;text-align:center">Get started today</span>
+  <h2 class="cta-h2 reveal reveal-delay-1">Stop chasing payments.<br><em>Start sending invoices.</em></h2>
+  <p class="cta-sub reveal reveal-delay-2">Free to start. No credit card. No sign-up. Just download and go.</p>
+  <a href="invoice-generator.html" class="btn-primary reveal reveal-delay-3" style="font-size:16px;padding:16px 36px;">Create your first invoice →</a>
+  <p class="cta-note reveal reveal-delay-4">3 free downloads as guest · 5/month with free account · Unlimited on Pro</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Invoice<em>Kit</em></div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:copyitada@gmail.com">Support</a>
+    <a href="invoice-generator.html">Launch app</a>
+  </div>
+  <div class="footer-copy">© 2026 InvoiceKit. All rights reserved.</div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FAQ toggle
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); btn.classList.add('open'); }
+}
+
+// Trigger hero reveals immediately
+setTimeout(() => {
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('visible'));
+}, 100);
+</script>
+</body>
+</html>

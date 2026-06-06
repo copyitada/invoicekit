@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — InvoiceKit</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1a1814; --ink2: #4a4640; --ink3: #8a8680;
+    --paper: #faf9f7; --paper3: #e4e0d8; --accent: #c8440a;
+    --white: #ffffff; --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); font-size: 15px; line-height: 1.75; }
+  nav { border-bottom: 1px solid var(--paper3); padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; background: var(--white); }
+  .nav-logo { font-family: var(--serif); font-size: 20px; color: var(--ink); text-decoration: none; }
+  .nav-logo em { color: var(--accent); font-style: normal; }
+  nav a.back { font-size: 13px; color: var(--ink3); text-decoration: none; }
+  nav a.back:hover { color: var(--accent); }
+  .container { max-width: 680px; margin: 0 auto; padding: 64px 24px 96px; }
+  .page-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+  h1 { font-family: var(--serif); font-size: 40px; line-height: 1.1; letter-spacing: -1px; color: var(--ink); margin-bottom: 8px; }
+  .updated { font-size: 13px; color: var(--ink3); margin-bottom: 48px; }
+  h2 { font-family: var(--serif); font-size: 22px; color: var(--ink); margin: 40px 0 12px; }
+  p { color: var(--ink2); margin-bottom: 16px; }
+  ul { color: var(--ink2); padding-left: 20px; margin-bottom: 16px; }
+  ul li { margin-bottom: 8px; }
+  a { color: var(--accent); }
+  .honest-box { background: var(--white); border: 1px solid var(--paper3); border-left: 3px solid var(--accent); border-radius: 4px; padding: 16px 20px; margin: 32px 0; font-size: 14px; color: var(--ink2); }
+  footer { text-align: center; padding: 32px; font-size: 12px; color: var(--ink3); border-top: 1px solid var(--paper3); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Invoice<em>Kit</em></a>
+  <a class="back" href="index.html">← Back to home</a>
+</nav>
+
+<div class="container">
+  <span class="page-label">Legal</span>
+  <h1>Privacy Policy</h1>
+  <div class="updated">Last updated: June 2026</div>
+
+  <div class="honest-box">
+    We wrote this in plain language on purpose. If something is unclear, email us and we'll explain it.
+  </div>
+
+  <h2>Who we are</h2>
+  <p>InvoiceKit is a free online invoice generator. We are an independent project, not a registered company. Our website is <strong>web-invoice-kit.netlify.app</strong>.</p>
+
+  <h2>What data we collect</h2>
+  <p>We only collect what we need to make the app work:</p>
+  <ul>
+    <li><strong>Your email address</strong> — when you create an account or sign in with Google</li>
+    <li><strong>Invoice data you enter</strong> — your name, your client's name, invoice amounts, and notes. This is stored so you can access your invoice history</li>
+    <li><strong>Usage count</strong> — how many invoices you've downloaded this month, to enforce the free account plan limit (5/month)</li>
+    <li><strong>AI credit usage</strong> — how many AI autofill credits you've used this month (free accounts: 300 credits/month; Pro: 6,000 credits/month), to enforce per-plan limits. Credits reset on the 1st of each month</li>
+    <li><strong>Anonymous browser fingerprint</strong> — only if you use the app without an account, to enforce the guest download limit (3/month) without requiring sign-up. See "Browser fingerprinting" below</li>
+  </ul>
+  <p>We do <strong>not</strong> collect your password in plain text (it is hashed by Supabase). We do <strong>not</strong> collect payment information (we have no paid plan yet). We do <strong>not</strong> track your behaviour across other websites.</p>
+
+  <h2>How we use your data</h2>
+  <ul>
+    <li>To let you sign in and access your account</li>
+    <li>To save and display your invoice history</li>
+    <li>To enforce the free account plan's monthly invoice limit (5/month) and AI autofill credit limit (300 credits/month)</li>
+    <li>To enforce the guest plan's monthly download limit (3/month) via browser fingerprinting</li>
+    <li>To process AI autofill requests on your behalf (your prompt is sent to our AI service and is not stored beyond the request)</li>
+    <li>To send you a confirmation email when you sign up (via Supabase)</li>
+  </ul>
+  <p>We do <strong>not</strong> sell your data. We do <strong>not</strong> use your data for advertising. We do <strong>not</strong> share your data with third parties except as described below.</p>
+
+  <h2>Who we share data with</h2>
+  <p>We use the following third-party services to run InvoiceKit:</p>
+  <ul>
+    <li><strong>Supabase</strong> (supabase.com) — stores your account and invoice data securely. Their servers are located in Singapore (ap-southeast-1). You can read their privacy policy at supabase.com/privacy</li>
+    <li><strong>Google</strong> — if you choose "Sign in with Google", Google shares your email address with us. You can read Google's privacy policy at policies.google.com/privacy</li>
+    <li><strong>Netlify</strong> — hosts our website. They may log your IP address for security purposes. netlify.com/privacy</li>
+  </ul>
+
+  <h2>Your invoice data</h2>
+  <p>The invoice data you enter (client names, amounts, etc.) belongs to you. We store it solely to power your invoice history feature. We do not read, analyse, or use your invoice content for any other purpose.</p>
+
+  <h2>Your rights</h2>
+  <p>You have the right to:</p>
+  <ul>
+    <li><strong>Access</strong> your data — your invoice history is visible in the app</li>
+    <li><strong>Delete</strong> your data — you can delete individual invoices from your history. To delete your entire account and all associated data, email us</li>
+    <li><strong>Correct</strong> your data — you can edit invoice data by loading it back into the form</li>
+  </ul>
+  <p>These rights apply under Indonesia's UU PDP (Personal Data Protection Law) and, where applicable, the EU's GDPR.</p>
+
+  <h2>Data retention</h2>
+  <p>We keep your data for as long as your account is active. If you ask us to delete your account, we will permanently delete all your data within 30 days.</p>
+
+  <h2>Cookies</h2>
+  <p>We do not use tracking cookies or advertising cookies. Supabase uses a session token stored in your browser's local storage to keep you logged in. This is not a tracking cookie — it contains only your session information.</p>
+
+  <h2>Browser fingerprinting</h2>
+  <p>If you use InvoiceKit without creating an account (guest mode), we generate an anonymous identifier from basic browser characteristics (such as your browser version, screen size, and timezone) using a technique called browser fingerprinting. This identifier is used solely to enforce the guest plan's monthly download limit (3 invoices/month). It is not linked to your identity, not shared with third parties, and not used for advertising or tracking. We use the open-source <strong>Broprint.js</strong> library for this purpose. Creating a free account removes the need for fingerprinting entirely — your usage is then tracked server-side against your account.</p>
+
+  <h2>Children</h2>
+  <p>InvoiceKit is not intended for children under 13. We do not knowingly collect data from children.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If we make significant changes to this policy, we will update the date at the top of this page. We will not make changes that reduce your privacy rights without notice.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about your privacy? Email us at: <a href="mailto:copyitada@gmail.com">copyitada@gmail.com</a></p>
+</div>
+
+<footer>
+  &copy; 2026 InvoiceKit &nbsp;&middot;&nbsp;
+  <a href="privacy.html">Privacy Policy</a> &nbsp;&middot;&nbsp;
+  <a href="terms.html">Terms of Service</a>
+</footer>
+
+</body>
+</html>
